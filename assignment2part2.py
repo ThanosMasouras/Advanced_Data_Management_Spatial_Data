@@ -102,25 +102,25 @@ def window_intersections(grid,info_cells_on_grid,window_minX,window_maxX,window_
 		difference_x = (maxMBRcell%10) - (minMBRcell%10)
 		difference_y = (maxMBRcell//10) - (minMBRcell//10)
 		for x in range(difference_y+1):
-				for y in range(difference_x+1):
-					cells_checked += 1
-					ids_of_cell = grid[list(grid)[minMBRcell + x + y*10]]
-					for id in ids_of_cell:
-						while(found == False):
-							if info_cells_on_grid[i][0] == id:
-								id_minX = info_cells_on_grid[i][1]
-								id_minY = info_cells_on_grid[i][2]
-								id_maxX = info_cells_on_grid[i][3]
-								id_maxY = info_cells_on_grid[i][4]
-								if (window_minX <= id_maxX and window_minY <= id_maxY) and (window_maxX >= id_minX and window_maxY >= id_minY):
-									if id not in ids_result:
-										ids_result.append(id)
-								elif (window_minX <= id_minX and window_minY <= id_minY) and (window_maxX >= id_maxX and window_maxY >= id_maxY):
-									if id not in ids_result:
-										ids_result.append(id)
-								found = True
-							i = i + 1
-						found = False
+			for y in range(difference_x+1):
+				cells_checked += 1
+				ids_of_cell = grid[list(grid)[minMBRcell + x + y*10]]
+				for id in ids_of_cell:
+					while(found == False):
+						if info_cells_on_grid[i][0] == id:
+							id_minX = info_cells_on_grid[i][1]
+							id_minY = info_cells_on_grid[i][2]
+							id_maxX = info_cells_on_grid[i][3]
+							id_maxY = info_cells_on_grid[i][4]
+							if (window_minX <= id_maxX and window_minY <= id_maxY) and (window_maxX >= id_minX and window_maxY >= id_minY):
+								if id not in ids_result:
+									ids_result.append(id)
+							elif (window_minX <= id_minX and window_minY <= id_minY) and (window_maxX >= id_maxX and window_maxY >= id_maxY):
+								if id not in ids_result:
+									ids_result.append(id)
+							found = True
+						i = i + 1
+					found = False
 	return ids_result, cells_checked
 
 def print_results(ids,cells_checked,query):

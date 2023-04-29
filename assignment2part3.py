@@ -102,25 +102,25 @@ def window_intersections(grid,info_cells_on_grid,window_minX,window_maxX,window_
 		difference_x = (maxMBRcell%10) - (minMBRcell%10)
 		difference_y = (maxMBRcell//10) - (minMBRcell//10)
 		for x in range(difference_y+1):
-				for y in range(difference_x+1):
-					cells_checked += 1
-					ids_of_cell = grid[list(grid)[minMBRcell + x + y*10]]
-					for id in ids_of_cell:
-						while(found == False):
-							if info_cells_on_grid[i][0] == id:
-								id_minX = info_cells_on_grid[i][1]
-								id_minY = info_cells_on_grid[i][2]
-								id_maxX = info_cells_on_grid[i][3]
-								id_maxY = info_cells_on_grid[i][4]
-								if (window_minX <= id_maxX and window_minY <= id_maxY) and (window_maxX >= id_minX and window_maxY >= id_minY):
-									if id not in ids_result:
-										ids_result.append(id)
-								elif (window_minX <= id_minX and window_minY <= id_minY) and (window_maxX >= id_maxX and window_maxY >= id_maxY):
-									if id not in ids_result:
-										ids_result.append(id)
-								found = True
-							i = i + 1
-						found = False
+			for y in range(difference_x+1):
+				cells_checked += 1
+				ids_of_cell = grid[list(grid)[minMBRcell + x + y*10]]
+				for id in ids_of_cell:
+					while(found == False):
+						if info_cells_on_grid[i][0] == id:
+							id_minX = info_cells_on_grid[i][1]
+							id_minY = info_cells_on_grid[i][2]
+							id_maxX = info_cells_on_grid[i][3]
+							id_maxY = info_cells_on_grid[i][4]
+							if (window_minX <= id_maxX and window_minY <= id_maxY) and (window_maxX >= id_minX and window_maxY >= id_minY):
+								if id not in ids_result:
+									ids_result.append(id)
+							elif (window_minX <= id_minX and window_minY <= id_minY) and (window_maxX >= id_maxX and window_maxY >= id_maxY):
+								if id not in ids_result:
+									ids_result.append(id)
+							found = True
+						i = i + 1
+					found = False
 	return ids_result, cells_checked
 
 def intersect(line1, line2):
@@ -128,25 +128,41 @@ def intersect(line1, line2):
     x3, y3, x4, y4 = line2
 
     # Calculate the slopes and y-intercepts of the two lines
-    m1 = (y2 - y1) / (x2 - x1) if x2 - x1 != 0 else float('inf')
-    b1 = y1 - m1 * x1 if x2 - x1 != 0 else x1
+    if x2 - x1 != 0:
+        m1 = (y2 - y1) / (x2 - x1)
+        b1 = y1 - m1 * x1
+    else:
+        m1 = float('inf')
+        b1 = x1
 
-    m2 = (y4 - y3) / (x4 - x3) if x4 - x3 != 0 else float('inf')
-    b2 = y3 - m2 * x3 if x4 - x3 != 0 else x3
+    if x4 - x3 != 0:
+        m2 = (y4 - y3) / (x4 - x3)
+        b2 = y3 - m2 * x3
+    else:
+        m2 = float('inf')
+        b2 = x3
 
     # Check if the lines are parallel
     if m1 == m2:
         return False
 
     # Calculate the intersection point of the two lines
-    x_intersect = (b2 - b1) / (m1 - m2) if m1 != float('inf') and m2 != float('inf') else (b1 if m1 == float('inf') else b2)
-    y_intersect = m1 * x_intersect + b1 if m1 != float('inf') else m2 * x_intersect + b2
+    if m1 != float('inf') and m2 != float('inf'):
+        x_intersect = (b2 - b1) / (m1 - m2)
+    else:
+        x_intersect = b1 if m1 == float('inf' )else b2
+        
+    if m1 != float('inf'):
+        y_intersect = m1 * x_intersect + b1
+    else:
+        y_intersect = m2 * x_intersect + b2
 
     # Check if the intersection point lies within the segments
     if (min(x1, x2) <= x_intersect <= max(x1, x2)) and (min(y1, y2) <= y_intersect <= max(y1, y2)) and (min(x3, x4) <= x_intersect <= max(x3, x4)) and (min(y3, y4) <= y_intersect <= max(y3, y4)):
         return True
 
     return False
+
 
 def get_ids_coords(id,info_cells_on_grid):
     ids_coords=[]
