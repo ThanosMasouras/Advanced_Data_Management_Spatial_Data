@@ -1,3 +1,5 @@
+#ATHANASIOS MASOURAS - 2752
+import sys
 
 def get_data_from_dir():
 	with open('grid.dir', 'r') as file:
@@ -52,8 +54,8 @@ def get_data_from_grd(number_of_ids_in_cells,maxX,maxY,minX,minY):
 
 	return grid, info_cells_on_grid
 
-def get_query_from_txt(query):
-	with open('queries.txt', 'r') as file:
+def get_query_from_txt(txt_file, query):
+	with open(txt_file, 'r') as file:
 		for i in range(query-1):
 			file.readline()
 		line = file.readline().strip()
@@ -122,6 +124,12 @@ def window_intersections(grid,info_cells_on_grid,window_minX,window_maxX,window_
 					found = False
 	return ids_result, cells_checked
 
+def get_nlines_of_file(txt_file):
+	with open(txt_file, 'r') as file:
+		lines = file.readlines()
+	num_lines = len(lines)
+	return num_lines
+
 def print_results(ids,cells_checked,query):
 	print(f"Query {query} results:")
 	print(f"{' '.join(map(str, ids))}")
@@ -130,10 +138,12 @@ def print_results(ids,cells_checked,query):
 	print(f"----------")
 
 def main():
+	txt_file = sys.argv[1]
 	number_of_ids_in_cells,maxX,maxY,minX,minY = get_data_from_dir()
 	grid, info_cells_on_grid = get_data_from_grd(number_of_ids_in_cells,maxX,maxY,minX,minY)
-	for i in range(1,6):
-		window_minX,window_maxX,window_minY,window_maxY = get_query_from_txt(i)
+	num_lines = get_nlines_of_file(txt_file)
+	for i in range(1,num_lines+1):
+		window_minX,window_maxX,window_minY,window_maxY = get_query_from_txt(txt_file,i)
 		ids_result, cells_checked = window_intersections(grid,info_cells_on_grid,window_minX,window_maxX,window_minY,window_maxY,maxX,maxY,minX,minY)
 		print_results(ids_result,cells_checked,i)
 

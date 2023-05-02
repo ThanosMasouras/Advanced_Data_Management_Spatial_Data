@@ -1,8 +1,9 @@
+#ATHANASIOS MASOURAS - 2752
 import csv
-
-def get_data():
+import sys
+def get_data(csv_file):
 	print("getting data from tiger_roads.csv")
-	with open('tiger_roads.csv', newline='') as csvfile:
+	with open(csv_file, newline='') as csvfile:
 	    id = 0
 	    data = []    
 	    maxX = float('-inf')
@@ -114,7 +115,8 @@ def create_grd_file(grid,data):
 	print("grid.grd creation finished")
 
 def main():
-	data,maxX,maxY,minX,minY = get_data()
+	csv_file = sys.argv[1]
+	data,maxX,maxY,minX,minY = get_data(csv_file)
 	grid = create_grid(data,maxX,maxY,minX,minY)
 	create_dir_file(grid,maxX,maxY,minX,minY)
 	create_grd_file(grid,data)
