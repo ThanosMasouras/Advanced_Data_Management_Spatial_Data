@@ -1,6 +1,7 @@
 import csv
 
 def get_data():
+	print("getting data from tiger_roads.csv")
 	with open('tiger_roads.csv', newline='') as csvfile:
 	    id = 0
 	    data = []    
@@ -98,6 +99,7 @@ def create_dir_file(grid,maxX,maxY,minX,minY):
 	            i+=1
 	            j= 0
 	    f.close()
+	print("grid.dir creation finished")
 
 def create_grd_file(grid,data):
 	with open("grid.grd", "w") as f:
@@ -111,6 +113,7 @@ def create_grd_file(grid,data):
 	                        for cord in cordinates:
 	                            f.write(f",{cord}")
 	                f.write(f" \n")
+	print("grid.grd creation finished")
 
 def main():
 	data,maxX,maxY,minX,minY = get_data()
