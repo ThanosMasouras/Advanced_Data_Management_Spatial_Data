@@ -10,7 +10,7 @@ def get_data():
 	    minX = float('inf')
 	    minY = float('inf')
 	    reader = csv.reader(csvfile)
-	    next(reader) #skip first line
+	    next(reader)
 	    
 	    for row in reader:
 	        id+=1
@@ -25,7 +25,6 @@ def get_data():
 	            for coord in coord_split:
 	                coord_floats.append(float(coord))
 
-	            #calculate MBR of each line
 	            if coord_floats[0] < MBRminX:
 	                MBRminX = coord_floats[0]
 	            if coord_floats[0] > MBRmaxX:
@@ -35,7 +34,6 @@ def get_data():
 	            if coord_floats[1] > MBRmaxY:
 	                MBRmaxY = coord_floats[1]
 	                
-	            #calculate min and max of data   
 	            if coord_floats[0] > maxX:
 	                maxX = coord_floats[0]
 	            if coord_floats[0] < minX:

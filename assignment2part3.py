@@ -53,11 +53,10 @@ def get_data_from_grd(number_of_ids_in_cells,maxX,maxY,minX,minY):
 	return grid, info_cells_on_grid
 
 def get_query_from_txt(query):
-	#read first query
 	with open('queries.txt', 'r') as file:
 		for i in range(query-1):
 			file.readline()
-		line = file.readline().strip()  # read the first line and remove any leading/trailing whitespaces
+		line = file.readline().strip()
 		first_query = [float(x) for x in line.split(',')[1].split()]
 	window_minX = first_query[0]
 	window_maxX = first_query[1]
@@ -127,7 +126,6 @@ def intersect(line1, line2):
     x1, y1, x2, y2 = line1
     x3, y3, x4, y4 = line2
 
-    # Calculate the slopes and y-intercepts of the two lines
     if x2 - x1 != 0:
         m1 = (y2 - y1) / (x2 - x1)
         b1 = y1 - m1 * x1
@@ -142,11 +140,9 @@ def intersect(line1, line2):
         m2 = float('inf')
         b2 = x3
 
-    # Check if the lines are parallel
     if m1 == m2:
         return False
 
-    # Calculate the intersection point of the two lines
     if m1 != float('inf') and m2 != float('inf'):
         x_intersect = (b2 - b1) / (m1 - m2)
     else:
@@ -157,7 +153,6 @@ def intersect(line1, line2):
     else:
         y_intersect = m2 * x_intersect + b2
 
-    # Check if the intersection point lies within the segments
     if (min(x1, x2) <= x_intersect <= max(x1, x2)) and (min(y1, y2) <= y_intersect <= max(y1, y2)) and (min(x3, x4) <= x_intersect <= max(x3, x4)) and (min(y3, y4) <= y_intersect <= max(y3, y4)):
         return True
 

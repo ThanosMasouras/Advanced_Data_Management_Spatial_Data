@@ -53,11 +53,10 @@ def get_data_from_grd(number_of_ids_in_cells,maxX,maxY,minX,minY):
 	return grid, info_cells_on_grid
 
 def get_query_from_txt(query):
-	#read first query
 	with open('queries.txt', 'r') as file:
 		for i in range(query-1):
 			file.readline()
-		line = file.readline().strip()  # read the first line and remove any leading/trailing whitespaces
+		line = file.readline().strip()
 		first_query = [float(x) for x in line.split(',')[1].split()]
 	window_minX = first_query[0]
 	window_maxX = first_query[1]
